@@ -1,0 +1,28 @@
+version: '3.8'
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: gtfs-metro-app
+    ports:
+      - "3005:3005"
+    volumes:
+      # Persist uploads and database files
+      - ./public/uploads:/app/public/uploads
+      - gtfs-data:/app/data
+    environment:
+      - NODE_ENV=production
+      - PORT=3005
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:3005"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+volumes:
+  gtfs-data:
+    driver: local
