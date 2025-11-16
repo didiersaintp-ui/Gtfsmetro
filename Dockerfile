@@ -46,14 +46,14 @@ ENV PORT 3005
 RUN addgroup --system --gid 1001 nodejs
 RUN adduser --system --uid 1001 nextjs
 
-# Create necessary directories
-RUN mkdir -p /app/public/uploads /app/data
-RUN chown -R nextjs:nodejs /app/public/uploads /app/data
-
 # Copy built files from builder
 COPY --from=builder --chown=nextjs:nodejs /app/public ./public
 COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
 COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
+
+# Create necessary directories and set permissions
+RUN mkdir -p /app/public/uploads /app/data
+RUN chown -R nextjs:nodejs /app/public /app/data
 
 # Switch to non-root user
 USER nextjs
