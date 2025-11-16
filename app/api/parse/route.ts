@@ -2,12 +2,10 @@ import { NextRequest, NextResponse } from 'next/server';
 import path from 'path';
 import { existsSync } from 'fs';
 import { parseGTFS } from '@/lib/gtfs/parser';
+import { parsedDataCache } from '@/lib/cache/data-cache';
 import type { ParseResponse, ErrorResponse } from '@/lib/gtfs/types';
 
 const UPLOAD_DIR = path.join(process.cwd(), 'public', 'uploads');
-
-// Store parsed data in memory (in production, use Redis or database)
-const parsedDataCache = new Map<string, any>();
 
 export async function POST(request: NextRequest) {
   const startTime = Date.now();

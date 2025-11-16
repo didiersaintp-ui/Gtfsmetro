@@ -1,10 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { generateMetroLayout } from '@/lib/layout/metro-layout';
+import { parsedDataCache, layoutCache } from '@/lib/cache/data-cache';
 import type { ErrorResponse } from '@/lib/gtfs/types';
-
-// In-memory cache for parsed data (should match the cache in /parse route)
-const parsedDataCache = new Map<string, any>();
-const layoutCache = new Map<string, any>();
 
 export async function POST(request: NextRequest) {
   try {
