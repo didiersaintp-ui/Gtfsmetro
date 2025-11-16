@@ -22,12 +22,6 @@ const nextConfig = {
 
     return config;
   },
-  // Increase body size limit for file uploads
-  api: {
-    bodyParser: {
-      sizeLimit: '100mb',
-    },
-  },
 };
 
 module.exports = nextConfig;

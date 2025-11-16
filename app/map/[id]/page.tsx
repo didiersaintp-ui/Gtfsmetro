@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import { Map, Network, Download, Loader2, ArrowLeft, Info } from 'lucide-react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
@@ -23,11 +23,7 @@ export default function MapViewPage() {
   const [activeTab, setActiveTab] = useState<'realistic' | 'metro'>('realistic');
   const [generatingLayout, setGeneratingLayout] = useState(false);
 
-  useEffect(() => {
-    loadData();
-  }, [uploadId]);
-
-  const loadData = async () => {
+  const loadData = useCallback(async () => {
     try {
       setLoading(true);
       setError(null);
@@ -51,7 +47,11 @@ export default function MapViewPage() {
     } finally {
       setLoading(false);
     }
-  };
+  }, [uploadId]);
+
+  useEffect(() => {
+    loadData();
+  }, [loadData]);
 
   const generateMetroLayout = async () => {
     if (!parsedData) return;
@@ -283,7 +283,7 @@ export default function MapViewPage() {
                           <div className="text-center">
                             <Network className="w-12 h-12 text-muted-foreground mx-auto mb-4" />
                             <p className="text-sm text-muted-foreground">
-                              Click "Generate Metro-Style View" to create schematic layout
+                              Click &ldquo;Generate Metro-Style View&rdquo; to create schematic layout
                             </p>
                           </div>
                         </div>
