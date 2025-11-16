@@ -98,7 +98,7 @@ export default function FileDropzone({
         onError?.(errorMsg);
       }
     },
-    [router, onUploadComplete, onError]
+    [router, onUploadComplete, onError, updateStatus]
   );
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
